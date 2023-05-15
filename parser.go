@@ -109,7 +109,7 @@ func parse(r io.Reader, bin string) (int, ParseResult, error) {
 	if err != nil {
 		return 0, ParseResult{}, err
 	}
-	events = removeFutile(events)
+	// events = removeFutile(events)
 	err = postProcessTrace(ver, events)
 	if err != nil {
 		return 0, ParseResult{}, err
