@@ -76,12 +76,13 @@ func analyze(path, bench string, gonum int) []string {
 	data, err := json.MarshalIndent(stuff, "", "  ")
 	os.WriteFile(jsonpath, data, 0660)
 
-	// sum, cnt := 0, 0
+	cnt := 0
 	overhead := []string{} // []string{strconv.Itoa(gonum)}
 	var preempt_stuff []ParsedEvent
 	for idx, event := range stuff {
 		// fmt.Printf("idx: %d\n", idx)
 		if event.Type == "GoPreempt" {
+			cnt += 1
 			preempt_stuff = append(preempt_stuff, event)
 
 			for next := idx + 1; next < len(stuff); next++ {
@@ -105,7 +106,7 @@ func analyze(path, bench string, gonum int) []string {
 	data2, err := json.MarshalIndent(preempt_stuff, "", "  ")
 	os.WriteFile(jsonpath2, data2, 0660)
 
-	// fmt.Printf("Result: %d / %d = %d\n", sum, cnt, sum/cnt)
+	fmt.Printf("preempt %d\n", cnt)
 	return overhead
 }
 
